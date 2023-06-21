@@ -1,0 +1,42 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: k8s-deploy
+    jobs:
+    - job: k8s-deploy
+      steps:
+      - task: KubectlInstaller@0
+        inputs:
+          kubectlVersion: 'latest'
+      - task: Kubernetes@1
+        inputs:
+          connectionType: 'Azure Resource Manager'
+          azureSubscriptionEndpoint: 'Azure subscription 1 (8a1b32ad-e119-4091-8703-e124f11fc6f2)'
+          azureResourceGroup: 'adfsd'
+          kubernetesCluster: 'sdfsf'
+          namespace: 'fsfsdf'
+          command: 'create'
+          arguments: 'secret usercreds'
+          secretType: 'dockerRegistry'
+          containerRegistryType: 'Azure Container Registry'
+          azureSubscriptionEndpointForSecrets: 'Azure subscription 1 (8a1b32ad-e119-4091-8703-e124f11fc6f2)'
+          secretName: 'usercreds'
+          checkLatest: true
+      
+    
+
+
+    - task: KubectlInstaller@0
+      inputs:
+        kubectlVersion: 'latest'
+      - deployment: k8s deployment
+        
